@@ -1,11 +1,34 @@
 {
   "name": "@bultcloud/mcp-server",
   "version": "1.0.0",
+  "description": "MCP server for managing infrastructure on Bult Cloud.",
   "type": "module",
   "main": "dist/index.js",
   "bin": {
     "bult-mcp": "dist/index.js"
   },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bultcloud/mcp-server.git"
+  },
+  "bugs": {
+    "url": "https://github.com/bultcloud/mcp-server/issues"
+  },
+  "homepage": "https://github.com/bultcloud/mcp-server#readme",
+  "keywords": [
+    "bult",
+    "bult-cloud",
+    "mcp",
+    "model-context-protocol",
+    "claude",
+    "cloud"
+  ],
+  "license": "MIT",
   "scripts": {
     "build": "tsc",
     "start": "node dist/index.js",
