@@ -2,7 +2,7 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
-Official Model Context Protocol (MCP) server for [Bult Cloud](https://bult.cloud).
+Official Model Context Protocol (MCP) server for [Bult Cloud](https://bult.ai).
 It lets MCP clients manage Bult Cloud projects, services, volumes, routes,
 templates, deployments, logs, and builds through the Bult Cloud API.
 
@@ -22,8 +22,7 @@ templates, deployments, logs, and builds through the Bult Cloud API.
 ## Requirements
 
 - Node.js 18 or newer.
-- A Bult Cloud account.
-- A Bult Cloud API token.
+- Bult API token.
 
 ## Installation
 
@@ -46,7 +45,7 @@ The server reads its configuration from environment variables.
 
 | Variable | Required | Description |
 | --- | --- | --- |
-| `BULT_API_URL` | Yes | Bult Cloud API base URL, for example `https://api.bult.cloud`. |
+| `BULT_API_URL` | Yes | Bult Cloud API base URL, for example `https://api.bult.ai`. |
 | `BULT_API_TOKEN` | Yes | API token used for Bearer authentication. |
 
 The server exits during startup if either variable is missing.
@@ -66,7 +65,7 @@ Using `npx`:
       "command": "npx",
       "args": ["-y", "@bultcloud/mcp-server"],
       "env": {
-        "BULT_API_URL": "https://api.bult.cloud",
+        "BULT_API_URL": "https://api.bult.ai",
         "BULT_API_TOKEN": "your-token"
       }
     }
@@ -80,7 +79,7 @@ Using `npx`:
 
 ```bash
 claude mcp add bult-cloud \
-  -e BULT_API_URL=https://api.bult.cloud \
+  -e BULT_API_URL=https://api.bult.ai \
   -e BULT_API_TOKEN=your-token \
   -- npx -y @bultcloud/mcp-server
 ```
@@ -91,7 +90,7 @@ Using `npx`:
 
 ```bash
 codex mcp add \
-  --env BULT_API_URL=https://api.bult.cloud \
+  --env BULT_API_URL=https://api.bult.ai \
   --env BULT_API_TOKEN=your-token \
   bult-cloud \
   -- npx -y @bultcloud/mcp-server
