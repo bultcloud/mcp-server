@@ -2,7 +2,7 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
-Official Model Context Protocol (MCP) server for [Bult Cloud](https://bult.ai).
+Official Model Context Protocol (MCP) server for [Bult](https://bult.ai).
 It lets MCP clients manage Bult Cloud projects, services, volumes, routes,
 templates, deployments, logs, and builds through the Bult Cloud API.
 
