@@ -4,7 +4,7 @@
 
 Official Model Context Protocol (MCP) server for [Bult](https://bult.ai).
 It lets MCP clients manage Bult projects, services, volumes, routes,
-templates, deployments, logs, and builds through the Bult Cloud API.
+templates, deployments, logs, and builds through the Bult API.
 
 ## Features
 
