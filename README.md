@@ -61,7 +61,7 @@ Using `npx`:
 ```json
 {
   "mcpServers": {
-    "bult-cloud": {
+    "bult": {
       "command": "npx",
       "args": ["-y", "@bultcloud/mcp-server"],
       "env": {
@@ -78,7 +78,7 @@ Using `npx`:
 Using `npx`:
 
 ```bash
-claude mcp add bult-cloud \
+claude mcp add bult \
   -e BULT_API_URL=https://api.bult.ai \
   -e BULT_API_TOKEN=your-token \
   -- npx -y @bultcloud/mcp-server
@@ -92,7 +92,7 @@ Using `npx`:
 codex mcp add \
   --env BULT_API_URL=https://api.bult.ai \
   --env BULT_API_TOKEN=your-token \
-  bult-cloud \
+  bult \
   -- npx -y @bultcloud/mcp-server
 ```
 
