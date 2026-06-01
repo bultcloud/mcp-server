@@ -3,7 +3,7 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
 Official Model Context Protocol (MCP) server for [Bult](https://bult.ai).
-It lets MCP clients manage Bult Cloud projects, services, volumes, routes,
+It lets MCP clients manage Bult projects, services, volumes, routes,
 templates, deployments, logs, and builds through the Bult Cloud API.
 
 ## Features
@@ -45,7 +45,7 @@ The server reads its configuration from environment variables.
 
 | Variable | Required | Description |
 | --- | --- | --- |
-| `BULT_API_URL` | Yes | Bult Cloud API base URL, for example `https://api.bult.ai`. |
+| `BULT_API_URL` | Yes | Bult API base URL, `https://api.bult.ai`. |
 | `BULT_API_TOKEN` | Yes | API token used for Bearer authentication. |
 
 The server exits during startup if either variable is missing.
@@ -164,13 +164,13 @@ Project layout:
 
 ```text
 src/index.ts          MCP server entrypoint
-src/client.ts         Bult Cloud API client
+src/client.ts         Bult API client
 src/tools/*.ts        MCP tool registrations by resource type
 ```
 
 ## Security
 
-`BULT_API_TOKEN` grants access to your Bult Cloud resources. Keep it out of
+`BULT_API_TOKEN` grants access to your Bult resources. Keep it out of
 source control, shell history, issue reports, and screenshots. Prefer scoped or
 rotatable tokens when available.
 
