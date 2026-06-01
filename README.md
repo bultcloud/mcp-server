@@ -16,7 +16,7 @@ templates, deployments, logs, and builds through the Bult API.
   history.
 - MCP tool annotations for read-only, idempotent, and destructive operations
   where supported.
-- Works over stdio with Claude Desktop, Claude Code, Cursor and other MCP-compatible
+- Works over stdio with Claude Desktop, Claude Code, Cursor, Google Antigravity and other MCP-compatible
   clients.
 
 ## Requirements
