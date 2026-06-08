@@ -49,7 +49,7 @@ The server reads its configuration from environment variables.
 
 | Variable | Required | Description |
 | --- | --- | --- |
-| `BULT_API_URL` | Yes | Bult API base URL, `https://api.bult.ai`. |
+| `BULT_API_URL` | Yes | Bult API base URL, `https://app.bult.ai`. |
 | `BULT_API_TOKEN` | Yes | API token used for Bearer authentication. |
 
 The server exits during startup if either variable is missing.
@@ -69,7 +69,7 @@ Using `npx`:
       "command": "npx",
       "args": ["-y", "@bultcloud/mcp-server"],
       "env": {
-        "BULT_API_URL": "https://api.bult.ai",
+        "BULT_API_URL": "https://app.bult.ai",
         "BULT_API_TOKEN": "your-token"
       }
     }
@@ -83,7 +83,7 @@ Using `npx`:
 
 ```bash
 claude mcp add bult \
-  -e BULT_API_URL=https://api.bult.ai \
+  -e BULT_API_URL=https://app.bult.ai \
   -e BULT_API_TOKEN=your-token \
   -- npx -y @bultcloud/mcp-server
 ```
@@ -94,7 +94,7 @@ Using `npx`:
 
 ```bash
 codex mcp add \
-  --env BULT_API_URL=https://api.bult.ai \
+  --env BULT_API_URL=https://app.bult.ai \
   --env BULT_API_TOKEN=your-token \
   bult \
   -- npx -y @bultcloud/mcp-server
