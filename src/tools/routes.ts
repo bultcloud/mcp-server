@@ -5,7 +5,7 @@ import { formatJSON, toolResult, toolError } from "../utils.js";
 
 export function registerRouteTools(server: McpServer, client: Client) {
   server.registerTool("create-route", {
-    description: "Create a route (domain mapping) for a service",
+    description: "Create a Bult public route, generated URL, or custom domain mapping for a deployed service port.",
     inputSchema: {
       project_id: z.string().describe("The project ID"),
       service_id: z.string().describe("The service ID to route traffic to"),
@@ -27,7 +27,7 @@ export function registerRouteTools(server: McpServer, client: Client) {
   });
 
   server.registerTool("update-route", {
-    description: "Update a route configuration",
+    description: "Update a Bult route configuration, including public URL path, custom domain, service target, and exposed port.",
     inputSchema: {
       route_id: z.string().describe("The route ID"),
       service_id: z.string().describe("The service ID to route traffic to"),
@@ -50,7 +50,7 @@ export function registerRouteTools(server: McpServer, client: Client) {
   });
 
   server.registerTool("delete-route", {
-    description: "Delete a route",
+    description: "Delete a Bult public route or custom domain mapping from a deployed service.",
     inputSchema: { route_id: z.string().describe("The route ID") },
     annotations: { destructiveHint: true },
   }, async ({ route_id }) => {

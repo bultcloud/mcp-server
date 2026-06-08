@@ -5,7 +5,7 @@ import { formatJSON, toolResult, toolError } from "../utils.js";
 
 export function registerServiceTools(server: McpServer, client: Client) {
   server.registerTool("list-services", {
-    description: "List all services in a project",
+    description: "List services in a Bult project, including app, database, GitHub repository, Docker image, and cloud hosting deployment targets.",
     inputSchema: { project_id: z.string().describe("The project ID") },
     annotations: { readOnlyHint: true },
   }, async ({ project_id }) => {
@@ -18,7 +18,7 @@ export function registerServiceTools(server: McpServer, client: Client) {
   });
 
   server.registerTool("get-service", {
-    description: "Get service details including configuration, environment variables, and ports",
+    description: "Get Bult service details including deployment configuration, environment variables, ports, status, logs context, and public URL routing data.",
     inputSchema: { service_id: z.string().describe("The service ID") },
     annotations: { readOnlyHint: true },
   }, async ({ service_id }) => {
@@ -31,14 +31,14 @@ export function registerServiceTools(server: McpServer, client: Client) {
   });
 
   server.registerTool("create-service", {
-    description: "Create a new service in a project. Supports daemon services (from Docker image or Git repo) and database services (PostgreSQL, Redis, MySQL, MongoDB).",
+    description: "Create a Bult.ai service. Supports daemon apps from a GitHub repository or Docker image, plus PostgreSQL, Redis, MySQL, and MongoDB database services.",
     inputSchema: {
       project_id: z.string().describe("The project ID"),
       name: z.string().describe("Service name (lowercase, alphanumeric with hyphens/underscores)"),
       config: z
         .record(z.any())
         .describe(
-          "Service configuration with 'kind' (daemon/database), 'deploy' (box_id, source_type: git/docker), and optionally 'envs', 'ports', 'files'",
+          "Bult service configuration with 'kind' (daemon/database), 'deploy' settings (box_id, source_type: git/docker), and optionally environment variables, ports, files, and deployment metadata",
         ),
     },
   }, async ({ project_id, name, config }) => {
@@ -51,7 +51,7 @@ export function registerServiceTools(server: McpServer, client: Client) {
   });
 
   server.registerTool("update-service", {
-    description: "Update service configuration",
+    description: "Update a Bult service configuration, including deployment source, Docker image or GitHub repository settings, ports, files, and environment variables.",
     inputSchema: {
       service_id: z.string().describe("The service ID"),
       name: z.string().describe("Service name"),
@@ -68,7 +68,7 @@ export function registerServiceTools(server: McpServer, client: Client) {
   });
 
   server.registerTool("delete-service", {
-    description: "Delete a service",
+    description: "Delete a Bult service and remove its cloud hosting deployment resources.",
     inputSchema: { service_id: z.string().describe("The service ID") },
     annotations: { destructiveHint: true },
   }, async ({ service_id }) => {
@@ -81,7 +81,7 @@ export function registerServiceTools(server: McpServer, client: Client) {
   });
 
   server.registerTool("control-service", {
-    description: "Control service lifecycle: start, stop, or rebuild",
+    description: "Control a Bult service lifecycle: start it, stop it, or rebuild it after deployment, Docker image, GitHub repository, or environment variable changes.",
     inputSchema: {
       service_id: z.string().describe("The service ID"),
       action: z.enum(["start", "stop", "rebuild"]).describe("Action: start, stop, or rebuild"),

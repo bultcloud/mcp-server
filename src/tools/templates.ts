@@ -5,7 +5,7 @@ import { toolResult, toolError, formatJSON } from "../utils.js";
 
 export function registerTemplateTools(server: McpServer, client: Client) {
   server.registerTool("list-templates", {
-    description: "List available project templates",
+    description: "List available Bult app and database templates for fast cloud hosting setup and one-click deployments.",
     annotations: { readOnlyHint: true },
   }, async () => {
     try {
@@ -17,7 +17,7 @@ export function registerTemplateTools(server: McpServer, client: Client) {
   });
 
   server.registerTool("apply-template", {
-    description: "Apply a template to a project, creating preconfigured services, volumes, and routes",
+    description: "Apply a Bult template to a project, creating preconfigured services, databases, volumes, routes, and deployable cloud hosting resources.",
     inputSchema: {
       project_id: z.string().describe("The project ID"),
       template_id: z.string().describe("The template ID"),

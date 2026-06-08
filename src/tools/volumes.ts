@@ -5,7 +5,7 @@ import { formatJSON, toolResult, toolError } from "../utils.js";
 
 export function registerVolumeTools(server: McpServer, client: Client) {
   server.registerTool("create-volume", {
-    description: "Create a new persistent volume in a project",
+    description: "Create a persistent storage volume in a Bult project for deployed apps, databases, and cloud hosting services.",
     inputSchema: {
       project_id: z.string().describe("The project ID"),
       name: z.string().describe("Volume name"),
@@ -21,7 +21,7 @@ export function registerVolumeTools(server: McpServer, client: Client) {
   });
 
   server.registerTool("update-volume", {
-    description: "Update a volume's name or size",
+    description: "Update a Bult persistent volume name or size for app storage and database hosting needs.",
     inputSchema: {
       volume_id: z.string().describe("The volume ID"),
       name: z.string().describe("Volume name"),
@@ -42,7 +42,7 @@ export function registerVolumeTools(server: McpServer, client: Client) {
   });
 
   server.registerTool("delete-volume", {
-    description: "Delete a volume",
+    description: "Delete a Bult persistent volume used by a deployed service or database.",
     inputSchema: { volume_id: z.string().describe("The volume ID") },
     annotations: { destructiveHint: true },
   }, async ({ volume_id }) => {
@@ -55,7 +55,7 @@ export function registerVolumeTools(server: McpServer, client: Client) {
   });
 
   server.registerTool("wipe-volume", {
-    description: "Wipe all data from a volume (irreversible)",
+    description: "Irreversibly wipe all data from a Bult persistent volume used by cloud apps or databases.",
     inputSchema: { volume_id: z.string().describe("The volume ID") },
     annotations: { destructiveHint: true },
   }, async ({ volume_id }) => {

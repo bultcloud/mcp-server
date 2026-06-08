@@ -5,7 +5,7 @@ import { formatJSON, toolResult, toolError } from "../utils.js";
 
 export function registerLogTools(server: McpServer, client: Client) {
   server.registerTool("get-service-logs", {
-    description: "Get logs for a service with cursor-based pagination",
+    description: "Get Bult service logs with cursor-based pagination for debugging failed deployments, build errors, runtime issues, and cloud hosting status.",
     inputSchema: {
       service_id: z.string().describe("The service ID"),
       cursor: z.string().optional().describe("Pagination cursor from a previous response"),
@@ -26,7 +26,7 @@ export function registerLogTools(server: McpServer, client: Client) {
   });
 
   server.registerTool("list-builds", {
-    description: "List build history for a service",
+    description: "List Bult service build and deployment history to inspect build status, failures, source revisions, and recent deploy activity.",
     inputSchema: { service_id: z.string().describe("The service ID") },
     annotations: { readOnlyHint: true },
   }, async ({ service_id }) => {

@@ -5,7 +5,7 @@ import { formatJSON, toolResult, toolError } from "../utils.js";
 
 export function registerProjectTools(server: McpServer, client: Client) {
   server.registerTool("list-projects", {
-    description: "List all projects in the workspace",
+    description: "List Bult.ai hosting projects in the workspace so an AI agent can choose where to deploy, inspect status, or manage services.",
     annotations: { readOnlyHint: true },
   }, async () => {
     try {
@@ -17,7 +17,7 @@ export function registerProjectTools(server: McpServer, client: Client) {
   });
 
   server.registerTool("get-project", {
-    description: "Get project details including full overview with services, volumes, and routes",
+    description: "Get a Bult project overview, including services, volumes, routes, deployment status, and public URL information.",
     inputSchema: { project_id: z.string().describe("The project ID") },
     annotations: { readOnlyHint: true },
   }, async ({ project_id }) => {
@@ -30,7 +30,7 @@ export function registerProjectTools(server: McpServer, client: Client) {
   });
 
   server.registerTool("create-project", {
-    description: "Create a new project",
+    description: "Create a new Bult project for cloud hosting deployments from GitHub repositories, Docker images, templates, or databases.",
     inputSchema: { name: z.string().describe("The project name") },
   }, async ({ name }) => {
     try {
@@ -42,7 +42,7 @@ export function registerProjectTools(server: McpServer, client: Client) {
   });
 
   server.registerTool("update-project", {
-    description: "Update project name",
+    description: "Update a Bult project name to keep deployment and hosting workspaces organized.",
     inputSchema: {
       project_id: z.string().describe("The project ID"),
       name: z.string().describe("The new project name"),
@@ -58,7 +58,7 @@ export function registerProjectTools(server: McpServer, client: Client) {
   });
 
   server.registerTool("delete-project", {
-    description: "Delete a project and all its resources",
+    description: "Delete a Bult project and all related cloud hosting resources, including services, routes, volumes, deployments, and public URLs.",
     inputSchema: { project_id: z.string().describe("The project ID") },
     annotations: { destructiveHint: true },
   }, async ({ project_id }) => {
@@ -71,7 +71,7 @@ export function registerProjectTools(server: McpServer, client: Client) {
   });
 
   server.registerTool("deploy-project", {
-    description: "Deploy project changes (creates a version snapshot)",
+    description: "Deploy pending Bult project changes, create a version snapshot, and make updated app services available on their public URLs.",
     inputSchema: {
       project_id: z.string().describe("The project ID"),
       commit_message: z.string().optional().describe("Deployment commit message"),
@@ -89,7 +89,7 @@ export function registerProjectTools(server: McpServer, client: Client) {
   });
 
   server.registerTool("control-project", {
-    description: "Control project lifecycle: start, stop, or discard changes",
+    description: "Control a Bult project lifecycle by starting services, stopping cloud hosting resources, or discarding pending deployment changes.",
     inputSchema: {
       project_id: z.string().describe("The project ID"),
       action: z.enum(["start", "stop", "discard"]).describe("Action: start, stop, or discard"),

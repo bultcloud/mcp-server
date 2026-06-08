@@ -22,7 +22,7 @@ if (!token) {
   process.exit(1);
 }
 
-const server = new McpServer({ name: "bult-cloud", version: "1.0.0" });
+const server = new McpServer({ name: "bult-cloud", version: "1.0.1" });
 const client = new Client(baseURL, token);
 
 registerProjectTools(server, client);

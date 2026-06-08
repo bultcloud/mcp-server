@@ -1,7 +1,8 @@
 {
   "name": "@bultcloud/mcp-server",
-  "version": "1.0.0",
-  "description": "MCP server for managing infrastructure on Bult Cloud.",
+  "version": "1.0.1",
+  "description": "Deploy and manage Bult apps from MCP-compatible AI agents.",
+  "mcpName": "io.github.bultcloud/mcp-server",
   "type": "module",
   "main": "dist/index.js",
   "bin": {
@@ -10,7 +11,10 @@
   "files": [
     "dist",
     "README.md",
-    "LICENSE"
+    "LICENSE",
+    ".env.example",
+    ".mcp",
+    "examples"
   ],
   "repository": {
     "type": "git",
@@ -22,11 +26,23 @@
   "homepage": "https://github.com/bultcloud/mcp-server#readme",
   "keywords": [
     "bult",
-    "bult-cloud",
+    "bult-ai",
     "mcp",
     "model-context-protocol",
+    "deployment",
+    "hosting",
     "claude",
-    "cloud"
+    "claude-code",
+    "cursor",
+    "windsurf",
+    "antigravity",
+    "cloud",
+    "devops",
+    "ai-agents",
+    "docker",
+    "github",
+    "logs",
+    "infrastructure"
   ],
   "license": "MIT",
   "scripts": {
