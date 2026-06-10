@@ -1,0 +1,174 @@
+{
+  "$schema": "https://raw.githubusercontent.com/anthropics/mcpb/main/schemas/mcpb-manifest-v0.3.schema.json",
+  "manifest_version": "0.3",
+  "name": "bult-ai-mcp-server",
+  "display_name": "Bult.ai MCP Server",
+  "version": "1.0.1",
+  "description": "Deploy and manage Bult.ai cloud hosting projects from Claude Desktop.",
+  "long_description": "Bult.ai MCP Server lets Claude Desktop deploy and manage Bult.ai cloud hosting resources. It can create projects and services, deploy GitHub repositories or Docker images, manage routes and volumes, inspect logs, and troubleshoot deployments.",
+  "author": {
+    "name": "Bult.ai",
+    "url": "https://bult.ai"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/bultcloud/mcp-server"
+  },
+  "homepage": "https://bult.ai",
+  "documentation": "https://github.com/bultcloud/mcp-server#readme",
+  "support": "https://github.com/bultcloud/mcp-server/issues",
+  "icon": "icon.png",
+  "server": {
+    "type": "node",
+    "entry_point": "dist/index.js",
+    "mcp_config": {
+      "command": "node",
+      "args": [
+        "${__dirname}/dist/index.js"
+      ],
+      "env": {
+        "BULT_API_URL": "${user_config.bult_api_url}",
+        "BULT_API_TOKEN": "${user_config.bult_api_token}"
+      }
+    }
+  },
+  "tools": [
+    {
+      "name": "list-projects",
+      "description": "List Bult.ai hosting projects in the workspace so an AI agent can choose where to deploy, inspect status, or manage services."
+    },
+    {
+      "name": "get-project",
+      "description": "Get a Bult project overview, including services, volumes, routes, deployment status, and public URL information."
+    },
+    {
+      "name": "create-project",
+      "description": "Create a new Bult project for cloud hosting deployments from GitHub repositories, Docker images, templates, or databases."
+    },
+    {
+      "name": "update-project",
+      "description": "Update a Bult project name to keep deployment and hosting workspaces organized."
+    },
+    {
+      "name": "delete-project",
+      "description": "Delete a Bult project and all related cloud hosting resources, including services, routes, volumes, deployments, and public URLs."
+    },
+    {
+      "name": "deploy-project",
+      "description": "Deploy pending Bult project changes, create a version snapshot, and make updated app services available on their public URLs."
+    },
+    {
+      "name": "control-project",
+      "description": "Control a Bult project lifecycle by starting services, stopping cloud hosting resources, or discarding pending deployment changes."
+    },
+    {
+      "name": "list-services",
+      "description": "List services in a Bult project, including app, database, GitHub repository, Docker image, and cloud hosting deployment targets."
+    },
+    {
+      "name": "get-service",
+      "description": "Get Bult service details including deployment configuration, environment variables, ports, status, logs context, and public URL routing data."
+    },
+    {
+      "name": "create-service",
+      "description": "Create a Bult.ai service. Supports daemon apps from a GitHub repository or Docker image, plus PostgreSQL, Redis, MySQL, and MongoDB database services."
+    },
+    {
+      "name": "update-service",
+      "description": "Update a Bult service configuration, including deployment source, Docker image or GitHub repository settings, ports, files, and environment variables."
+    },
+    {
+      "name": "delete-service",
+      "description": "Delete a Bult service and remove its cloud hosting deployment resources."
+    },
+    {
+      "name": "control-service",
+      "description": "Control a Bult service lifecycle: start it, stop it, or rebuild it after deployment, Docker image, GitHub repository, or environment variable changes."
+    },
+    {
+      "name": "create-route",
+      "description": "Create a Bult public route, generated URL, or custom domain mapping for a deployed service port."
+    },
+    {
+      "name": "update-route",
+      "description": "Update a Bult route configuration, including public URL path, custom domain, service target, and exposed port."
+    },
+    {
+      "name": "delete-route",
+      "description": "Delete a Bult public route or custom domain mapping from a deployed service."
+    },
+    {
+      "name": "list-templates",
+      "description": "List available Bult app and database templates for fast cloud hosting setup and one-click deployments."
+    },
+    {
+      "name": "apply-template",
+      "description": "Apply a Bult template to a project, creating preconfigured services, databases, volumes, routes, and deployable cloud hosting resources."
+    },
+    {
+      "name": "get-service-logs",
+      "description": "Get Bult service logs with cursor-based pagination for debugging failed deployments, build errors, runtime issues, and cloud hosting status."
+    },
+    {
+      "name": "list-builds",
+      "description": "List Bult service build and deployment history to inspect build status, failures, source revisions, and recent deploy activity."
+    },
+    {
+      "name": "create-volume",
+      "description": "Create a persistent storage volume in a Bult project for deployed apps, databases, and cloud hosting services."
+    },
+    {
+      "name": "update-volume",
+      "description": "Update a Bult persistent volume name or size for app storage and database hosting needs."
+    },
+    {
+      "name": "delete-volume",
+      "description": "Delete a Bult persistent volume used by a deployed service or database."
+    },
+    {
+      "name": "wipe-volume",
+      "description": "Irreversibly wipe all data from a Bult persistent volume used by cloud apps and databases."
+    }
+  ],
+  "keywords": [
+    "bult",
+    "bult-ai",
+    "mcp",
+    "cloud",
+    "hosting",
+    "deployment",
+    "devops",
+    "docker",
+    "github",
+    "logs"
+  ],
+  "license": "MIT",
+  "privacy_policies": [
+    "https://bult.ai/privacy-policy"
+  ],
+  "compatibility": {
+    "platforms": [
+      "darwin",
+      "win32"
+    ],
+    "runtimes": {
+      "node": ">=18.0.0"
+    }
+  },
+  "user_config": {
+    "bult_api_url": {
+      "type": "string",
+      "title": "Bult API URL",
+      "description": "Base URL for Bult.ai API requests.",
+      "default": "https://app.bult.ai",
+      "required": true
+    },
+    "bult_api_token": {
+      "type": "string",
+      "title": "Bult API Token",
+      "description": "API token from your Bult.ai account.",
+      "sensitive": true,
+      "required": true
+    }
+  }
+}

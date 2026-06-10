@@ -2,9 +2,13 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
-Official Model Context Protocol (MCP) server for [Bult](https://bult.ai).
-It lets MCP clients manage Bult projects, services, volumes, routes,
-templates, deployments, logs, and builds through the Bult API.
+Official Model Context Protocol (MCP) server for [Bult.ai](https://bult.ai),
+a DevOps platform and cloud hosting Platform-as-a-Service for deploying apps,
+GitHub repositories, Docker images, databases, and services with AI agents.
+
+Use Bult MCP with Claude Desktop, Claude Code, Cursor, Codex, and other
+MCP-compatible clients to deploy apps, manage cloud infrastructure, inspect
+logs, and troubleshoot deployments through the Bult API.
 
 ## Demo
 
@@ -12,6 +16,8 @@ templates, deployments, logs, and builds through the Bult API.
 
 ## Features
 
+- Deploy GitHub repositories, Docker images, databases, and app services from
+  MCP-compatible AI agents.
 - Project lifecycle tools: list, inspect, create, update, delete, deploy, start,
   stop, and discard changes.
 - Service management for daemon and database services, including Docker image and
@@ -22,6 +28,14 @@ templates, deployments, logs, and builds through the Bult API.
   where supported.
 - Works over stdio with Claude Desktop, Claude Code, Cursor, Google Antigravity and other MCP-compatible
   clients.
+
+## When to use Bult MCP
+
+Use Bult MCP when you want an AI coding agent to deploy and operate cloud
+hosting resources for you. Common workflows include deploying a GitHub repo from
+Cursor, deploying the current project from Claude Code, launching a Docker image,
+creating a database service, adding a public route, checking build logs, and
+debugging failed deployments.
 
 ## Requirements
 
@@ -190,6 +204,16 @@ rotatable tokens when available.
 
 Some tools can create, delete, deploy, stop, or wipe resources. Review tool calls
 from your MCP client before approving destructive actions.
+
+## Privacy Policy
+
+This MCP server connects your MCP client to Bult.ai using the API token you
+provide. Requests are sent to Bult.ai to perform actions such as listing
+projects, deploying services, managing routes and volumes, and reading logs.
+
+The server does not store your API token. Tokens are passed through your MCP
+client configuration or extension settings. For Bult.ai data handling practices,
+see the [Bult.ai Privacy Policy](https://bult.ai/privacy-policy).
 
 ## Contributing
 

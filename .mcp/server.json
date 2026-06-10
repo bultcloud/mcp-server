@@ -1,8 +1,8 @@
 {
   "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
   "name": "io.github.bultcloud/mcp-server",
-  "title": "Bult",
-  "description": "Deploy and manage Bult apps from AI coding agents.",
+  "title": "Bult.ai",
+  "description": "Deploy GitHub repos, Docker images, databases, and cloud apps to Bult.ai from AI agents.",
   "websiteUrl": "https://bult.ai",
   "repository": {
     "url": "https://github.com/bultcloud/mcp-server",
