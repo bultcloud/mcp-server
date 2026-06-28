@@ -1,0 +1,68 @@
+{
+  "name": "bult-ai-mcp-server",
+  "displayName": "Bult.ai MCP Server",
+  "description": "Register the official Bult.ai MCP Server in VS Code for deploying GitHub repos, Docker images, databases, and cloud apps.",
+  "version": "1.0.2",
+  "publisher": "bult-ai",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/bultcloud/mcp-server"
+  },
+  "homepage": "https://bult.ai",
+  "bugs": {
+    "url": "https://github.com/bultcloud/mcp-server/issues"
+  },
+  "engines": {
+    "vscode": "^1.105.0"
+  },
+  "categories": [
+    "AI",
+    "Other"
+  ],
+  "keywords": [
+    "bult",
+    "bult-ai",
+    "mcp",
+    "model-context-protocol",
+    "deployment",
+    "cloud-hosting",
+    "docker",
+    "github",
+    "devops",
+    "ai-agents"
+  ],
+  "activationEvents": [
+    "onStartupFinished"
+  ],
+  "main": "./extension.js",
+  "icon": "icon.png",
+  "contributes": {
+    "configuration": {
+      "title": "Bult MCP",
+      "properties": {
+        "bultMcp.apiUrl": {
+          "type": "string",
+          "default": "https://app.bult.ai",
+          "description": "Base URL for Bult.ai API requests."
+        }
+      }
+    },
+    "commands": [
+      {
+        "command": "bultMcp.setApiToken",
+        "title": "Bult.ai MCP: Set API Token"
+      },
+      {
+        "command": "bultMcp.clearApiToken",
+        "title": "Bult.ai MCP: Clear API Token"
+      }
+    ],
+    "mcpServerDefinitionProviders": [
+      {
+        "id": "bultMcp",
+        "label": "Bult.ai MCP Server"
+      }
+    ]
+  }
+}

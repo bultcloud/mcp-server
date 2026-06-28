@@ -1,0 +1,24 @@
+{
+  "name": "bult-ai",
+  "displayName": "Bult.ai",
+  "version": "1.0.0",
+  "description": "Deploy, manage, and debug Bult.ai cloud apps from Cursor with MCP tools and agent skills.",
+  "publisher": "Bult.ai",
+  "homepage": "https://bult.ai",
+  "repository": "https://github.com/bultcloud/mcp-server",
+  "icon": "../icon.png",
+  "categories": ["Deployment", "MCP", "DevOps", "Cloud"],
+  "keywords": [
+    "bult",
+    "bult-ai",
+    "deployment",
+    "cloud hosting",
+    "mcp",
+    "docker",
+    "github",
+    "logs"
+  ],
+  "mcpServers": "./mcp/bult.json",
+  "skills": "./skills",
+  "rules": "./rules.md"
+}
