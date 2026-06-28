@@ -1,0 +1,40 @@
+{
+  "name": "bult-ai",
+  "version": "1.0.0",
+  "description": "Deploy, manage, and debug Bult.ai cloud apps from Claude Code.",
+  "author": {
+    "name": "Bult.ai",
+    "url": "https://bult.ai"
+  },
+  "homepage": "https://bult.ai",
+  "repository": "https://github.com/bultcloud/mcp-server",
+  "license": "MIT",
+  "keywords": [
+    "bult",
+    "deployment",
+    "cloud-hosting",
+    "mcp",
+    "docker",
+    "github",
+    "logs"
+  ],
+  "skills": "./skills",
+  "commands": "./commands",
+  "mcpServers": "./.mcp.json",
+  "userConfig": {
+    "bultApiUrl": {
+      "type": "string",
+      "title": "Bult API URL",
+      "description": "Base URL for Bult.ai API requests.",
+      "default": "https://app.bult.ai",
+      "required": true
+    },
+    "bultApiToken": {
+      "type": "string",
+      "title": "Bult API Token",
+      "description": "API token from your Bult.ai account.",
+      "sensitive": true,
+      "required": true
+    }
+  }
+}

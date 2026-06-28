@@ -1,0 +1,12 @@
+{
+  "mcpServers": {
+    "bult": {
+      "command": "npx",
+      "args": ["-y", "@bultcloud/mcp-server"],
+      "env": {
+        "BULT_API_URL": "${userConfig.bultApiUrl}",
+        "BULT_API_TOKEN": "${userConfig.bultApiToken}"
+      }
+    }
+  }
+}

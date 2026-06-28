@@ -1,0 +1,12 @@
+{
+  "name": "bult",
+  "owner": "Bult.ai",
+  "description": "Bult.ai plugins for deploying, managing, and debugging cloud apps.",
+  "plugins": [
+    {
+      "name": "bult-ai",
+      "path": "./extensions/claude-code",
+      "description": "Deploy, manage, and debug Bult.ai cloud apps from Claude Code with MCP tools and skills."
+    }
+  ]
+}

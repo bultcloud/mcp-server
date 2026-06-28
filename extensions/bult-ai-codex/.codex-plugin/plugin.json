@@ -1,0 +1,20 @@
+{
+  "name": "bult-ai-codex",
+  "version": "1.0.0",
+  "description": "Deploy, manage, and debug Bult.ai cloud apps from Codex with skills and MCP tools.",
+  "author": {
+    "name": "Bult.ai",
+    "url": "https://bult.ai"
+  },
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Bult.ai",
+    "shortDescription": "Deploy and debug Bult.ai cloud apps from Codex.",
+    "longDescription": "Bult.ai for Codex bundles deployment skills and the official Bult MCP server so Codex can deploy GitHub repositories, Docker images, databases, services, routes, volumes, logs, and builds.",
+    "developerName": "Bult.ai",
+    "category": "Developer Tools",
+    "capabilities": ["skills", "mcp"],
+    "defaultPrompt": "Use Bult.ai to deploy, inspect, or debug this app."
+  },
+  "mcpServers": "./.mcp.json"
+}

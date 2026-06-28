@@ -1,0 +1,20 @@
+{
+  "name": "bult",
+  "interface": {
+    "displayName": "Bult.ai"
+  },
+  "plugins": [
+    {
+      "name": "bult-ai-codex",
+      "source": {
+        "source": "local",
+        "path": "./extensions/bult-ai-codex"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Developer Tools"
+    }
+  ]
+}
