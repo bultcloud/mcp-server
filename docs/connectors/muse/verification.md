@@ -45,5 +45,23 @@ An earlier Python urllib public request returned 403. A later curl request passe
 - Exact plan/region/rate limits confirmed by the platform owner.
 - Publication of guide and OpenAPI; no commit, push or public documentation upload performed.
 - Hosted Muse execution, OAuth and remote MCP have not been tested or implemented.
-- GitHub deployment, database creation, templates, destructive actions and retry behavior were not live-tested in this run. Remove those prompts from the initial submission or test them separately.
+- See the additional tests below for GitHub, database creation and templates. Destructive actions and retry behavior remain untested.
 - `verify-review.py` is a read-only rerun helper. Syntax checked; not executed with a dedicated reviewer token because that token/account does not exist yet.
+
+## Additional capability tests (2026-10-12, 14:29 UTC onward)
+
+| Capability | Evidence | Result |
+| --- | --- | --- |
+| Public GitHub deployment | docker/welcome-to-docker, main, Dockerfile; commit 68c1b9f87c41fb3fef2667e27149865c2f42d1eb; build 153dbc0e-63c3-4e29-b1dd-a1da83ecc0e5 status success | Passed |
+| GitHub app public response | https://muse-git-9e03f89f.fin1.bult.app/ returned HTTPS 200 and title Welcome to Docker | Passed |
+| PostgreSQL direct creation | postgres:16-alpine, database kind, unique generated password, no public route | Passed |
+| PostgreSQL SQL execution | Initialization logs show CREATE TABLE, INSERT 0 1 and selected bult-postgres-review-ok marker, then ready to accept connections | Passed; local initialization SQL, not an independent client connection |
+| PostgreSQL persistent storage | Project overview after creation contains no volumes or mounts | Not verified; direct service creation does not supply storage |
+| Template listing | Catalog returned PostgreSQL service, volume and mount definition | Passed |
+| Template application | PostgreSQL template 3f9c5462-2e2a-43d7-8c0a-4e28c2d10812 returned INVALID_TOKEN; project listing and service creation still worked | Failed with configured API key |
+
+Source evidence: project-service handler.go routes template apply through AuthMiddleware, while project/service operations use UnifiedAuthMiddleware. This explains the observed distinction, but the deployed revision was not obtained. No template resources were created. The initial automatic approval rejection was resolved by inspecting the exact template scope and retrying; the subsequent failure came from the Bult API.
+
+Additional service IDs: GitHub e5629a5d-0ec8-4476-9acc-8be55e72ebd7; PostgreSQL 007f9974-308a-4153-bf73-ae64ec8ec339. Both belong to the existing synthetic review project. No customer applications were modified. PostgreSQL credentials are deliberately excluded from the report and examples.
+
+After testing, stop requests for both additional services succeeded. The original connector-demo was left untouched. The GitHub URL above records a successful test-time response, not a promise of continued availability after stopping. The expanded OpenAPI passed structural validation and git diff --check passed. Documentation changes are local and have not been committed or pushed.

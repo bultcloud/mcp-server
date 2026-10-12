@@ -2,8 +2,8 @@
   "openapi": "3.1.0",
   "info": {
     "title": "Bult connector REST API subset",
-    "version": "0.1.0",
-    "description": "Docker deployment and diagnostics subset derived from Bult MCP and backend source. See verification.md for live coverage. Additional response fields are allowed; not a complete platform contract."
+    "version": "0.2.0",
+    "description": "Docker, GitHub, database configuration, templates and diagnostics. See verification.md for live coverage and template authentication limitations. Additional response fields are allowed; not a complete platform contract."
   },
   "servers": [
     {
@@ -610,6 +610,119 @@
           }
         }
       }
+    },
+    "/projects/templates": {
+      "get": {
+        "operationId": "listTemplates",
+        "summary": "List available templates and resource definitions",
+        "x-bult-permission": "read",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object"
+                      }
+                    },
+                    "error": {}
+                  },
+                  "required": []
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Failure: inspect HTTP status and error. Error body may vary by gateway.",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/projects/{project_id}/{template_id}/apply": {
+      "post": {
+        "operationId": "applyTemplate",
+        "summary": "Apply a template; requires workspace JWT, not API key",
+        "x-bult-permission": "write",
+        "parameters": [
+          {
+            "name": "project_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "template_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "string"
+                    },
+                    "error": {}
+                  },
+                  "required": []
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Failure: inspect HTTP status and error. Error body may vary by gateway.",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object"
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "WorkspaceJWT": []
+          }
+        ],
+        "description": "API-key authentication returned INVALID_TOKEN in the live review. Source routes this operation through JWT-only middleware. Do not advertise as working with the API-key connector until fixed and retested. Inspect resources, costs and default credentials before applying."
+      }
     }
   },
   "components": {
@@ -618,6 +731,12 @@
         "type": "http",
         "scheme": "bearer",
         "description": "Bult API token; no OAuth scope claim."
+      },
+      "WorkspaceJWT": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT",
+        "description": "Bult workspace JWT, distinct from an API key. JWT issuance/refresh is not described in this contract."
       }
     },
     "schemas": {
@@ -653,7 +772,29 @@
           },
           "database": {
             "type": "object",
-            "description": "Database configuration is outside the tested Docker demo."
+            "properties": {
+              "type": {
+                "type": "string",
+                "enum": [
+                  "postgresql",
+                  "redis",
+                  "mysql",
+                  "mongodb"
+                ]
+              },
+              "replicas": {
+                "type": "integer"
+              },
+              "backup_enabled": {
+                "type": "boolean"
+              },
+              "backup_time": {
+                "type": "integer"
+              }
+            },
+            "required": [
+              "type"
+            ]
           },
           "deploy": {
             "type": "object",
@@ -688,6 +829,28 @@
               },
               "entrypoint": {
                 "type": "string"
+              },
+              "auto_deploy": {
+                "type": "boolean"
+              },
+              "installation_id": {
+                "type": "integer",
+                "description": "Authorized GitHub App installation for private repositories; never infer an installation ID."
+              },
+              "dockerfile_path": {
+                "type": "string"
+              },
+              "dockerfile_context": {
+                "type": "string"
+              },
+              "dockerfile_build_stage": {
+                "type": "string"
+              },
+              "install_command": {
+                "type": "string"
+              },
+              "build_command": {
+                "type": "string"
               }
             },
             "required": [
@@ -706,7 +869,19 @@
           "envs": {
             "type": "array",
             "items": {
-              "type": "object"
+              "type": "object",
+              "properties": {
+                "key": {
+                  "type": "string"
+                },
+                "value": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "key",
+                "value"
+              ]
             },
             "description": "Potential secrets; exclude from AI context."
           },

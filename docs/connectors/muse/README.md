@@ -6,7 +6,7 @@ Authenticate each request with `Authorization: Bearer <BULT_API_TOKEN>` and send
 
 ## Reference
 
-The accompanying `openapi.json` describes the initial Docker deployment and diagnostic workflow. It is a scoped connector contract, not the entire Bult API. `generate-openapi.py` regenerates it without dependencies. The MCP source in `src/tools/` documents additional project, volume, template and service operations.
+The accompanying `openapi.json` describes Docker/GitHub deployment, database configuration, templates and diagnostics. It is a scoped connector contract, not the entire Bult API. `generate-openapi.py` regenerates it without dependencies. Template application currently requires workspace JWT authentication: the live API-key test returned INVALID_TOKEN. See the capability tests below before selecting connector operations.
 
 The API returns `{ "status": "OK", "data": ..., "error": null }` for normal resource operations. Project creation returns a string ID in `data`; service and route creation return objects. Deployment returns acceptance, not proof of a running application. Some lifecycle endpoints instead return `{ "message": "OK" }`. Errors can be an envelope with `error.message` or a simple string `error`; inspect HTTP status before interpreting data.
 
@@ -42,7 +42,25 @@ Do not blindly retry resource creation, template application or deployment after
 
 ## Review scope
 
-Initial prompts: deploy a public Docker image and return its verified URL; list projects/services; inspect runtime logs. GitHub builds, database provisioning and template deployment need their own successful tests before including them as verified examples. Build history is not full build-log access.
+Supported prompts with live evidence: deploy a public Docker image or public GitHub Dockerfile repository; list projects/services; inspect runtime logs; list templates. PostgreSQL service creation and initialization SQL passed, but persistent database provisioning has not passed end to end. Template application failed with API-key authentication. Build history is not full build-log access.
+
+## GitHub deployment
+
+Use `POST /projects/{project_id}/services` with kind `daemon`, deploy.source_type `git`, git_url, git_branch, an available box_id and the selected build_type. Dockerfile builds additionally specify dockerfile_path and optionally dockerfile_context. The tested example is in `github-example.json`: Docker's public welcome-to-docker repository, main branch, Dockerfile, port 3000. Create a matching route, deploy and wait for build history to report success before checking HTTPS. Set auto_deploy explicitly; the test disables automatic deployment on later repository pushes.
+
+Private repositories require the user's authorized GitHub integration and correct installation_id. The public-repository test does not verify private repository permissions, automatic redeployment or Railpack builds.
+
+## PostgreSQL and templates
+
+Database services use kind `database`, database.type `postgresql`, a PostgreSQL Docker image, and POSTGRES_USER/POSTGRES_PASSWORD/POSTGRES_DB environment entries. Generate a unique password and keep the database internal. The live test used postgres:16-alpine and ran CREATE TABLE, INSERT and SELECT during initialization; the expected marker appeared in logs.
+
+Creating the service alone did not create persistent storage. A volume must be mounted at the image's expected data path before treating it as a durable database. The reviewed REST/MCP subset has no volume-mount creation operation. Do not invent a REST mount endpoint or imply that create-volume alone attaches storage.
+
+List templates with `GET /projects/templates`. The PostgreSQL template inspected during review includes one postgres:16-alpine database service, one volume and a mount at /var/lib/postgresql/data, with no public route. It contains default credentials; replace them before deployment.
+
+Apply with `POST /projects/{project_id}/{template_id}/apply` and an empty JSON object for the default template. However, the live API-key call returned INVALID_TOKEN while ordinary project/service operations continued working. The backend source snapshot attaches JWT-only AuthMiddleware to this route. The OpenAPI explicitly declares the separate workspace JWT requirement. Fix/confirm the deployed authentication contract and retest before offering template application through the API-key connector. No JWT login/refresh flow is supplied by this document.
+
+Persistent PostgreSQL acceptance requires a mounted volume, a SQL write, a controlled restart and a SQL read proving the same record survived. That check remains pending, not failed database functionality.
 
 CLI and agent workflows: https://github.com/bultcloud/cli
 

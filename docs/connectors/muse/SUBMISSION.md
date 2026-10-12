@@ -18,8 +18,12 @@ These are proposed publication destinations, not live verified links. Check both
 ## Example prompts for the tested initial scope
 
 - Deploy a public Docker image to Bult and verify its public URL.
+- Deploy a public GitHub repository using its Dockerfile and verify its public URL.
 - Show my Bult projects and service status.
 - Read the runtime logs for my application and explain the reported errors.
+- Show the available application and database templates.
+
+Template application currently fails with the API-key connector (INVALID_TOKEN); persistent PostgreSQL provisioning remains unverified. Keep full template launch and durable database creation prompts out of the API-key submission until the authentication/mounting path is resolved and retested. This is a connector access limitation, not a statement that the dashboard lacks those features.
 
 ## Access requirements
 

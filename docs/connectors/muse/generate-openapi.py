@@ -13,16 +13,17 @@ schemas = {
     "ServiceConfig": obj({
         "kind": {"type": "string", "enum": ["daemon", "database"]},
         "daemon": obj({"replicas": {"type": "integer"}}),
-        "database": {"type": "object", "description": "Database configuration is outside the tested Docker demo."},
+        "database": obj({"type": {"type": "string", "enum": ["postgresql", "redis", "mysql", "mongodb"]}, "replicas": {"type": "integer"}, "backup_enabled": {"type": "boolean"}, "backup_time": {"type": "integer"}}, ["type"]),
         "deploy": obj({"box_id": {"type": "integer"}, "source_type": {"type": "string", "enum": ["docker", "git"]}, "image": string, "is_image_private": {"type": "boolean"}, "git_url": string, "git_branch": string, "build_type": string, "cmd": string, "entrypoint": string}, ["box_id", "source_type"]),
         "ports": {"type": "array", "items": {"type": "integer", "minimum": 1, "maximum": 65535}},
-        "envs": {"type": "array", "items": {"type": "object"}, "description": "Potential secrets; exclude from AI context."},
+        "envs": {"type": "array", "items": obj({"key": string, "value": string}, ["key", "value"]), "description": "Potential secrets; exclude from AI context."},
         "files": {"type": "array", "items": obj({"path": string, "content": string}, ["path", "content"])}
     }, ["kind", "deploy"]),
     "ServiceInput": obj({"name": {"type": "string", "maxLength": 63, "pattern": "^[a-z]([-a-z0-9]*[a-z0-9])?$"}, "config": ref("ServiceConfig")}, ["name", "config"]),
     "RouteInput": obj({"service_id": string, "domain": string, "path": string, "port": {"type": "integer", "minimum": 1, "maximum": 65535}}, ["service_id", "port"]),
 }
-spec = {"openapi": "3.1.0", "info": {"title": "Bult connector REST API subset", "version": "0.1.0", "description": "Docker deployment and diagnostics subset derived from Bult MCP and backend source. See verification.md for live coverage. Additional response fields are allowed; not a complete platform contract."}, "servers": [{"url": "https://app.bult.ai/api/v1"}], "security": [{"BultToken": []}], "paths": {}, "components": {"securitySchemes": {"BultToken": {"type": "http", "scheme": "bearer", "description": "Bult API token; no OAuth scope claim."}}, "schemas": schemas}}
+schemas["ServiceConfig"]["properties"]["deploy"]["properties"].update({"auto_deploy": {"type": "boolean"}, "installation_id": {"type": "integer", "description": "Authorized GitHub App installation for private repositories; never infer an installation ID."}, "dockerfile_path": string, "dockerfile_context": string, "dockerfile_build_stage": string, "install_command": string, "build_command": string})
+spec = {"openapi": "3.1.0", "info": {"title": "Bult connector REST API subset", "version": "0.2.0", "description": "Docker, GitHub, database configuration, templates and diagnostics. See verification.md for live coverage and template authentication limitations. Additional response fields are allowed; not a complete platform contract."}, "servers": [{"url": "https://app.bult.ai/api/v1"}], "security": [{"BultToken": []}], "paths": {}, "components": {"securitySchemes": {"BultToken": {"type": "http", "scheme": "bearer", "description": "Bult API token; no OAuth scope claim."}, "WorkspaceJWT": {"type": "http", "scheme": "bearer", "bearerFormat": "JWT", "description": "Bult workspace JWT, distinct from an API key. JWT issuance/refresh is not described in this contract."}}, "schemas": schemas}}
 def add(method, path, operation, summary, data=None, body=None, code="200"):
     import re
     response = obj({"status": string, "data": data if data is not None else {}, "error": {}})
@@ -43,5 +44,10 @@ add("post", "/projects/{project_id}/deploy", "deployProject", "Initiate deployme
 logs = add("get", "/projects/services/{service_id}/logs", "getServiceLogs", "Read runtime logs", obj({"logs": {"type": ["array", "null"], "items": {"type": "object"}}, "cursor": string}))
 logs["parameters"].append({"name": "cursor", "in": "query", "schema": string, "description": "Opaque cursor from the previous response."})
 add("get", "/projects/services/{service_id}/builds", "listBuilds", "Read build history; not full build logs")
+catalog = add("get", "/projects/templates", "listTemplates", "List available templates and resource definitions", {"type": "array", "items": {"type": "object"}})
+catalog["security"] = []
+apply = add("post", "/projects/{project_id}/{template_id}/apply", "applyTemplate", "Apply a template; requires workspace JWT, not API key", string, {"type": "object"})
+apply["security"] = [{"WorkspaceJWT": []}]
+apply["description"] = "API-key authentication returned INVALID_TOKEN in the live review. Source routes this operation through JWT-only middleware. Do not advertise as working with the API-key connector until fixed and retested. Inspect resources, costs and default credentials before applying."
 (ROOT / "openapi.json").write_text(json.dumps(spec, indent=2) + "\n", encoding="utf-8")
 print(f"Generated {sum(len(p) for p in spec['paths'].values())} operations")

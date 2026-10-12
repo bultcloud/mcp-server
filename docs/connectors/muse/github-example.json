@@ -1,0 +1,19 @@
+{
+  "name": "github-review",
+  "config": {
+    "kind": "daemon",
+    "daemon": {"replicas": 1},
+    "deploy": {
+      "box_id": 1,
+      "source_type": "git",
+      "git_url": "https://github.com/docker/welcome-to-docker",
+      "git_branch": "main",
+      "build_type": "dockerfile",
+      "dockerfile_path": "Dockerfile",
+      "auto_deploy": false
+    },
+    "ports": [3000],
+    "envs": [],
+    "files": []
+  }
+}
