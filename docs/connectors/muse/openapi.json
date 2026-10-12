@@ -1,0 +1,779 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Bult connector REST API subset",
+    "version": "0.1.0",
+    "description": "Docker deployment and diagnostics subset derived from Bult MCP and backend source. See verification.md for live coverage. Additional response fields are allowed; not a complete platform contract."
+  },
+  "servers": [
+    {
+      "url": "https://app.bult.ai/api/v1"
+    }
+  ],
+  "security": [
+    {
+      "BultToken": []
+    }
+  ],
+  "paths": {
+    "/projects": {
+      "get": {
+        "operationId": "listProjects",
+        "summary": "List accessible projects",
+        "x-bult-permission": "read",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object"
+                      }
+                    },
+                    "error": {}
+                  },
+                  "required": []
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Failure: inspect HTTP status and error. Error body may vary by gateway.",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "operationId": "createProject",
+        "summary": "Create a project",
+        "x-bult-permission": "write",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "string"
+                    },
+                    "error": {}
+                  },
+                  "required": []
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Failure: inspect HTTP status and error. Error body may vary by gateway.",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "name"
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    "/projects/{project_id}/overview": {
+      "get": {
+        "operationId": "getProject",
+        "summary": "Project services, routes and volumes",
+        "x-bult-permission": "read",
+        "parameters": [
+          {
+            "name": "project_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "object"
+                    },
+                    "error": {}
+                  },
+                  "required": []
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Failure: inspect HTTP status and error. Error body may vary by gateway.",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      }
+    },
+    "/projects/{project_id}/services": {
+      "get": {
+        "operationId": "listServices",
+        "summary": "List services and observed status",
+        "x-bult-permission": "read",
+        "parameters": [
+          {
+            "name": "project_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object"
+                      }
+                    },
+                    "error": {}
+                  },
+                  "required": []
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Failure: inspect HTTP status and error. Error body may vary by gateway.",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "operationId": "createService",
+        "summary": "Create a service configuration",
+        "x-bult-permission": "write",
+        "parameters": [
+          {
+            "name": "project_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "object"
+                    },
+                    "error": {}
+                  },
+                  "required": []
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Failure: inspect HTTP status and error. Error body may vary by gateway.",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ServiceInput"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/projects/services/{service_id}": {
+      "get": {
+        "operationId": "getService",
+        "summary": "Read service configuration; may include secrets",
+        "x-bult-permission": "read",
+        "parameters": [
+          {
+            "name": "service_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "object"
+                    },
+                    "error": {}
+                  },
+                  "required": []
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Failure: inspect HTTP status and error. Error body may vary by gateway.",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      }
+    },
+    "/projects/{project_id}/routes": {
+      "post": {
+        "operationId": "createRoute",
+        "summary": "Create public route configuration",
+        "x-bult-permission": "write",
+        "parameters": [
+          {
+            "name": "project_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "object"
+                    },
+                    "error": {}
+                  },
+                  "required": []
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Failure: inspect HTTP status and error. Error body may vary by gateway.",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RouteInput"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/projects/routes/{route_id}": {
+      "put": {
+        "operationId": "updateRoute",
+        "summary": "Update public route configuration",
+        "x-bult-permission": "write",
+        "parameters": [
+          {
+            "name": "route_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "object"
+                    },
+                    "error": {}
+                  },
+                  "required": []
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Failure: inspect HTTP status and error. Error body may vary by gateway.",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RouteInput"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/projects/{project_id}/deploy": {
+      "post": {
+        "operationId": "deployProject",
+        "summary": "Initiate deployment",
+        "x-bult-permission": "write",
+        "parameters": [
+          {
+            "name": "project_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Accepted; deployment readiness requires separate verification.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "null"
+                    },
+                    "error": {}
+                  },
+                  "required": []
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Failure: inspect HTTP status and error. Error body may vary by gateway.",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "commit_message": {
+                    "type": "string"
+                  },
+                  "services": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "required": [
+                  "commit_message",
+                  "services"
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    "/projects/services/{service_id}/logs": {
+      "get": {
+        "operationId": "getServiceLogs",
+        "summary": "Read runtime logs",
+        "x-bult-permission": "read",
+        "parameters": [
+          {
+            "name": "service_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "cursor",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Opaque cursor from the previous response."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "logs": {
+                          "type": [
+                            "array",
+                            "null"
+                          ],
+                          "items": {
+                            "type": "object"
+                          }
+                        },
+                        "cursor": {
+                          "type": "string"
+                        }
+                      },
+                      "required": []
+                    },
+                    "error": {}
+                  },
+                  "required": []
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Failure: inspect HTTP status and error. Error body may vary by gateway.",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      }
+    },
+    "/projects/services/{service_id}/builds": {
+      "get": {
+        "operationId": "listBuilds",
+        "summary": "Read build history; not full build logs",
+        "x-bult-permission": "read",
+        "parameters": [
+          {
+            "name": "service_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string"
+                    },
+                    "data": {},
+                    "error": {}
+                  },
+                  "required": []
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Failure: inspect HTTP status and error. Error body may vary by gateway.",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "BultToken": {
+        "type": "http",
+        "scheme": "bearer",
+        "description": "Bult API token; no OAuth scope claim."
+      }
+    },
+    "schemas": {
+      "Envelope": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string"
+          },
+          "data": {},
+          "error": {}
+        },
+        "required": []
+      },
+      "ServiceConfig": {
+        "type": "object",
+        "properties": {
+          "kind": {
+            "type": "string",
+            "enum": [
+              "daemon",
+              "database"
+            ]
+          },
+          "daemon": {
+            "type": "object",
+            "properties": {
+              "replicas": {
+                "type": "integer"
+              }
+            },
+            "required": []
+          },
+          "database": {
+            "type": "object",
+            "description": "Database configuration is outside the tested Docker demo."
+          },
+          "deploy": {
+            "type": "object",
+            "properties": {
+              "box_id": {
+                "type": "integer"
+              },
+              "source_type": {
+                "type": "string",
+                "enum": [
+                  "docker",
+                  "git"
+                ]
+              },
+              "image": {
+                "type": "string"
+              },
+              "is_image_private": {
+                "type": "boolean"
+              },
+              "git_url": {
+                "type": "string"
+              },
+              "git_branch": {
+                "type": "string"
+              },
+              "build_type": {
+                "type": "string"
+              },
+              "cmd": {
+                "type": "string"
+              },
+              "entrypoint": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "box_id",
+              "source_type"
+            ]
+          },
+          "ports": {
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 65535
+            }
+          },
+          "envs": {
+            "type": "array",
+            "items": {
+              "type": "object"
+            },
+            "description": "Potential secrets; exclude from AI context."
+          },
+          "files": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "path": {
+                  "type": "string"
+                },
+                "content": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "path",
+                "content"
+              ]
+            }
+          }
+        },
+        "required": [
+          "kind",
+          "deploy"
+        ]
+      },
+      "ServiceInput": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "maxLength": 63,
+            "pattern": "^[a-z]([-a-z0-9]*[a-z0-9])?$"
+          },
+          "config": {
+            "$ref": "#/components/schemas/ServiceConfig"
+          }
+        },
+        "required": [
+          "name",
+          "config"
+        ]
+      },
+      "RouteInput": {
+        "type": "object",
+        "properties": {
+          "service_id": {
+            "type": "string"
+          },
+          "domain": {
+            "type": "string"
+          },
+          "path": {
+            "type": "string"
+          },
+          "port": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 65535
+          }
+        },
+        "required": [
+          "service_id",
+          "port"
+        ]
+      }
+    }
+  }
+}

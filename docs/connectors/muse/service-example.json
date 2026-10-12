@@ -1,0 +1,21 @@
+{
+  "name": "connector-demo",
+  "config": {
+    "kind": "daemon",
+    "daemon": { "replicas": 1 },
+    "deploy": {
+      "box_id": 1,
+      "source_type": "docker",
+      "image": "nginx:stable-alpine",
+      "is_image_private": false
+    },
+    "ports": [80],
+    "envs": [],
+    "files": [
+      {
+        "path": "/usr/share/nginx/html/index.html",
+        "content": "<!doctype html><html><title>Bult connector review</title><body><h1>Bult connector review</h1><p>bult-muse-review-ok</p></body></html>\n"
+      }
+    ]
+  }
+}
